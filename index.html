@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="blackjack-board">
+      <h1>Blackjack</h1>
+      <p id="message-el">Want to play a round?</p>
+      <p id="cards-el" class="blackjack-text">Cards:</p>
+      <p id="sum-el" class="blackjack-text">Sum:</p>
+      <div class="blackjack-btns">
+        <button class="blackjack-btn" onclick="startGame()">start game</button>
+        <button class="blackjack-btn blackjack-btn-gold" onclick="newCard()">
+          new card
+        </button>
+      </div>
+      <p id="player-el"></p>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

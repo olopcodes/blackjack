@@ -1,0 +1,82 @@
+/* Complete the CSS styling according to the provided design */
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  background-image: url("./images/table.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-size: 100%;
+  color: white;
+  text-align: center;
+}
+
+.blackjack-board {
+  margin: 5em 1em 0;
+}
+
+h1 {
+  color: goldenrod;
+  font-size: 3.5rem;
+}
+
+#message-el {
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.blackjack-text {
+  font-size: 1.5rem;
+  margin: 1.5em 0;
+}
+
+.blackjack-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.blackjack-btn {
+  color: #016f32;
+  background-color: goldenrod;
+  width: 150px;
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  padding: 1em;
+  font-weight: 700;
+  border-radius: 3px;
+  text-transform: uppercase;
+  transition: 200ms ease;
+}
+
+.blackjack-btn:hover,
+.blackjack-btn:active,
+.blackjack-btn:focus {
+  background-color: gold;
+}
+
+.blackjack-btn-gold {
+  background-color: white;
+}
+
+.blackjack-btn-gold:hover,
+.blackjack-btn-gold:active,
+.blackjack-btn-gold:focus {
+  background-color: goldenrod;
+}
