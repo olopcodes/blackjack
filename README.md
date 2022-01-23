@@ -1,12 +1,8 @@
 # A Blackjack Game
 
----
-
 A simple blackjack game with only one player. Some functionality of blackjack have not been included: doubling down, splitting pairs, insurance, or surrender. Winning by getting 21 or as close as you can to 21 before the other folds
 
 ## How to Play
-
----
 
 - Press Start Game
 - Enter Your Name in the prompt
@@ -17,21 +13,15 @@ A simple blackjack game with only one player. Some functionality of blackjack ha
 
 ## Technology used
 
----
-
 - HTML
 - CSS
 - JS
 
 ## Features
 
----
-
 - Use of localstorage
 - Fetching data from an api
 
 ## Credits
 
----
-
-This project began as part of the Scrimba Frontend Career Path
+This project began as part of the Scrimba Frontend Career Path. [https://scrimba.com/]
