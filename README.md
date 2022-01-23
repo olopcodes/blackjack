@@ -24,4 +24,4 @@ A simple blackjack game with only one player. Some functionality of blackjack ha
 
 ## Credits
 
-This project began as part of the Scrimba Frontend Career Path. [https://scrimba.com/]
+This project began as part of the Scrimba Frontend Career Path. [scrimba.com](https://scrimba.com/)
