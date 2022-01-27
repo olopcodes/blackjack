@@ -10,29 +10,47 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div class="blackjack-board">
+    <!-- remove after start game clicked -->
+    <header class="blackjack__header">
       <h1>Blackjack</h1>
-      <p id="message-el">Want to play a round?</p>
-      <p id="cards-el" class="blackjack-text">Cards:</p>
-      <p id="sum-el" class="blackjack-text">Sum:</p>
-      <div class="blackjack-btns">
-        <button id="start-btn" class="blackjack-btn">start game</button>
+      <p>Play rounds against the computer</p>
+      <button class="btn">start game</button>
+    </header>
 
-        <button class="blackjack-btn">bet</button>
-        <div>
-          <button id="decrease-bet" class="blackjack-btn blackjack-btn-gold">
-            -
-          </button>
-          <p id="blackjack-bet">5</p>
-          <button id="increase-bet" class="blackjack-btn blackjack-btn-gold">
-            +
-          </button>
+    <main class="blackjack__board">
+      <!-- dealer -->
+      <div class="blackjack__dealer blackjack__box">
+        <p class="blackjack-sum">Dealer Sum: <span>19</span></p>
+        <div class="blackjack__cards-wrapper"></div>
+      </div>
+      <!-- dealer -->
+
+      <!-- player -->
+      <div id="blackjack-player" class="blackjack__player blackjack__box">
+        <!-- this will show after bet button clicks -->
+        <div class="blackjack__player-content">
+          <p class="blackjack-sum">Player Sum: <span>10</span></p>
+          <div class="blackjack__cards-wrapper"></div>
+        </div>
+
+        <!-- this will show after start button clicked -->
+        <div class="blackjack__player-btns">
+          <button class="btn">bet</button>
+          <div id="blackjack__bet-btns" class="blackjack__bet-btns">
+            <button id="decrease-bet" class="btn">-</button>
+            <p id="player-bet">5</p>
+            <button id="increase-bet" class="btn">+</button>
+          </div>
+
+          <p id="player-coins" class="player__coins">
+            Your Coins: <span>300</span>
+          </p>
         </div>
       </div>
-      <p id="player-el">Your chips: <span>200</span></p>
-    </div>
+      <!-- player -->
+    </main>
+
     <script src="js/functions.js"></script>
-    <script src="js/Player.js"></script>
     <script src="js/Game.js"></script>
     <script src="js/app.js"></script>
   </body>

@@ -8,6 +8,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  min-height: 100%;
+}
+
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
@@ -15,83 +20,4 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top center;
-  min-height: 100%;
-  display: flex;
-  justify-content: center;
-  font-size: 100%;
-  color: white;
-  text-align: center;
-}
-
-.blackjack-board {
-  margin: 5em 1em 0;
-  height: 100%;
-  padding-bottom: 2em;
-}
-
-h1 {
-  color: goldenrod;
-  font-size: 3.5rem;
-}
-
-#message-el {
-  font-size: 2rem;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.blackjack-text {
-  font-size: 1.5rem;
-  margin: 1.5em 0;
-}
-
-.blackjack-btns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.8em;
-}
-
-.blackjack-btns div {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-
-#start-btn.close {
-  display: none;
-}
-
-.blackjack-btn {
-  color: #016f32;
-  background-color: goldenrod;
-  width: 150px;
-  cursor: pointer;
-  border: 0;
-  outline: none;
-  padding: 1em;
-  font-weight: 700;
-  border-radius: 3px;
-  text-transform: uppercase;
-  transition: 200ms ease;
-}
-
-.blackjack-btn:hover,
-.blackjack-btn:active,
-.blackjack-btn:focus {
-  background-color: gold;
-}
-
-.blackjack-btn-gold {
-  background-color: white;
-  font-size: 1.5rem;
-  padding: 0.5em 0.8em;
-  width: auto;
-}
-
-.blackjack-btn-gold:hover,
-.blackjack-btn-gold:active,
-.blackjack-btn-gold:focus {
-  background-color: goldenrod;
 }
