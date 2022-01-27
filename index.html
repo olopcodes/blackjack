@@ -11,13 +11,13 @@
   </head>
   <body>
     <!-- remove after start game clicked -->
-    <header class="blackjack__header">
+    <header id="blackjack-header" class="blackjack__header">
       <h1>Blackjack</h1>
       <p>Play rounds against the computer</p>
-      <button class="btn">start game</button>
+      <button id="start-btn" class="btn btn-cta">start game</button>
     </header>
 
-    <main class="blackjack__board">
+    <main class="blackjack__board hide">
       <!-- dealer -->
       <div class="blackjack__dealer blackjack__box">
         <p class="blackjack-sum">Dealer Sum: <span>19</span></p>
@@ -35,9 +35,9 @@
 
         <!-- this will show after start button clicked -->
         <div class="blackjack__player-btns">
-          <button class="btn">bet</button>
+          <button class="btn btn-cta">bet</button>
           <div id="blackjack__bet-btns" class="blackjack__bet-btns">
-            <button id="decrease-bet" class="btn">-</button>
+            <button id="decrease-bet" class="btn btn-secondary">-</button>
             <p id="player-bet">5</p>
             <button id="increase-bet" class="btn">+</button>
           </div>

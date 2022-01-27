@@ -6,3 +6,10 @@ class Game {
     this.cards = [];
   }
 }
+
+class Player {
+  constructor() {
+    this.sum = 0;
+    this.hasBlackjack = false;
+  }
+}
