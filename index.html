@@ -16,14 +16,24 @@
       <p id="cards-el" class="blackjack-text">Cards:</p>
       <p id="sum-el" class="blackjack-text">Sum:</p>
       <div class="blackjack-btns">
-        <button class="blackjack-btn" onclick="startGame()">start game</button>
-        <button class="blackjack-btn blackjack-btn-gold" onclick="newCard()">
-          new card
-        </button>
-      </div>
-      <p id="player-el"></p>
-    </div>
+        <button id="start-btn" class="blackjack-btn">start game</button>
 
-    <script src="index.js"></script>
+        <button class="blackjack-btn">bet</button>
+        <div>
+          <button id="decrease-bet" class="blackjack-btn blackjack-btn-gold">
+            -
+          </button>
+          <p id="blackjack-bet">5</p>
+          <button id="increase-bet" class="blackjack-btn blackjack-btn-gold">
+            +
+          </button>
+        </div>
+      </div>
+      <p id="player-el">Your chips: <span>200</span></p>
+    </div>
+    <script src="js/functions.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>

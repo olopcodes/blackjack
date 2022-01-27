@@ -18,8 +18,8 @@ async function getCards(num) {
   console.log(data);
 }
 
-getCards(2);
-getCards(1);
+// getCards(2);
+// getCards(1);
 
 let cards = [];
 let sum = 0;
@@ -108,3 +108,13 @@ function newCard() {
     renderGame();
   }
 }
+// const game = new Game();
+
+const game = new Game();
+game.getDeckId();
+// game.drawCards();
+// game.setDeckId();
+game.deckId = await game.setDeckId();
+
+// game.drawCards(4);
+// console.log(game.deckId);
