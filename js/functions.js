@@ -14,15 +14,18 @@ async function drawCards(id, n) {
   return data.cards;
 }
 
-// async function updateCards(id, n) {
-//   const newCards = await this.drawCards(id, n);
-//   for (let card of newCards) {
-//     this.cards.push(card);
-//   }
-// }
-
-function removeClassFromArr(arr) {
+function removeClassFromArr(arr, className) {
   for (let item of arr) {
-    item.classList.remove("hide");
+    item.classList.remove(className);
   }
+}
+
+function addClassName(el, className) {
+  el.classList.add(className);
+}
+
+function showDealerHandonStand(el) {
+  el.querySelector(
+    ".blackjack__cards-wrapper div:nth-of-type(2) img"
+  ).style.opacity = 1;
 }

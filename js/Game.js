@@ -32,6 +32,8 @@ class Game {
     }
   }
 
+  // fix how this is implemented
+  // the logic does not work!!
   _generatePlayerInfo(arr, name) {
     let newCards = [];
     for (let item of arr) {
@@ -61,12 +63,42 @@ class Player {
 
   // add cards to get sum
   _renderPlayerInfo(el) {
-    let img;
     for (let item of this._cards) {
-      img = document.createElement("img");
+      const div = document.createElement("div");
+      const img = document.createElement("img");
       img.src = item.image;
-
-      el.querySelector(".blackjack__cards-wrapper").appendChild(img);
+      div.appendChild(img);
+      el.querySelector(".blackjack__cards-wrapper").appendChild(div);
     }
+
+    this._renderSum(el);
+  }
+
+  _evaluateCards() {
+    let total = 0;
+    for (let card of this._cards) {
+      if (
+        card.value === "KING" ||
+        card.value === "JACK" ||
+        card.value === "QUEEN"
+      ) {
+        total += 10;
+      } else if (card.value === "ACE") {
+        if (total + 11 > 21) {
+          total += 1;
+        } else {
+          total += 11;
+        }
+      } else {
+        total += Number(card.value);
+      }
+    }
+
+    this._sum = total;
+  }
+
+  _renderSum(el) {
+    this._evaluateCards();
+    el.querySelector(".blackjack-sum span").textContent = this._sum;
   }
 }
