@@ -20,3 +20,9 @@ async function drawCards(id, n) {
 //     this.cards.push(card);
 //   }
 // }
+
+function removeClassFromArr(arr) {
+  for (let item of arr) {
+    item.classList.remove("hide");
+  }
+}
