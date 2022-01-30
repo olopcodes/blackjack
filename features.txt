@@ -1,5 +1,4 @@
 1. start game
 2. get new deck
-3. store game data in local storage
-4. first you have to place your bet then get the cards
-5. show the cards to the player
+3. first you have to place your bet then get the cards
+4. show the cards to the player

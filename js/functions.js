@@ -24,8 +24,18 @@ function addClassName(el, className) {
   el.classList.add(className);
 }
 
-function showDealerHandonStand(el) {
+function showDealerHand(el) {
   el.querySelector(
     ".blackjack__cards-wrapper div:nth-of-type(2) img"
   ).style.opacity = 1;
+  el.querySelector(".blackjack-sum span").style.opacity = 1;
+}
+
+async function drawOneCard() {
+  // getting a new card
+  const card = await drawCards(game._deckId, 1);
+  // formatting card
+  const cardArr = game._formatCards(card);
+  // getting the card out of the array
+  return cardArr.pop();
 }

@@ -160,22 +160,22 @@ body {
 
 .blackjack__cards-wrapper div:nth-of-type(3) {
   transform: translate(-50%, -50%) rotate(5deg);
-  display: none;
+  /* display: none; */
 }
 
 .blackjack__cards-wrapper div:nth-of-type(4) {
   transform: translate(-50%, -50%) rotate(25deg);
-  display: none;
+  /* display: none; */
 }
 
 .blackjack__cards-wrapper div:nth-of-type(5) {
   transform: translate(-50%, -50%) rotate(45deg);
-  display: none;
+  /* display: none; */
 }
 
 .blackjack__cards-wrapper div:nth-of-type(6) {
   transform: translate(-50%, -50%) rotate(65deg);
-  display: none;
+  /* display: none; */
 }
 
 #blackjack-player .blackjack__cards-wrapper {
@@ -217,4 +217,18 @@ body {
 
 #coins span {
   color: white;
+}
+
+#game-message {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: goldenrod;
+  padding: 0.5em 1em;
+  margin-bottom: 2em;
+  /* margin: 2em 0 2em; */
+}
+
+#another-round {
+  margin-bottom: 2em;
 }
