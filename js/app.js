@@ -7,6 +7,7 @@ const betEl = document.getElementById("player-bet");
 const playerBoard = document.getElementById("blackjack-player");
 const dealerBoard = document.getElementById("blackjack-dealer");
 const playerButtons = document.getElementById("player-btns");
+const playerBoardButtons = playerBoard.querySelectorAll("button");
 const blackjackButtons = document.querySelector(".blackjack__btns");
 const gameMessage = document.getElementById("game-message");
 const anotherRoundButton = document.getElementById("another-round");
@@ -32,7 +33,7 @@ blackjackButtons.addEventListener("click", async (e) => {
   } else if (e.target.id === "bet-btn") {
     // show boxes
     removeClassFromArr(blackjackBoxes, "hide");
-
+    // playerButtons.classList.remove("hide");
     // get cards
     const cards = await drawCards(game._deckId, 2);
     const cardsTwo = await drawCards(game._deckId, 2);
@@ -50,11 +51,11 @@ blackjackButtons.addEventListener("click", async (e) => {
     game._dealer._renderPlayerInfo(dealerBoard);
 
     // hide bet btns until next round
-    addClassName(blackjackButtons, "hide");
+    addClassName([blackjackButtons], "hide");
 
     // check if player has blackjack
     game._checkBlackJack(gameMessage);
-    endRound();
+    // endRound();
 
     // deletes coin betted to coins the player has
     game._betCoins();
@@ -68,10 +69,9 @@ playerButtons.addEventListener("click", async (e) => {
     showDealerHand(dealerBoard);
 
     // check if dealer got blackjack
-    game._checkBlackJack(gameMessage);
+    game._checkDealerSum(gameMessage);
 
     // if dealer has blackjack
-    endRound();
 
     let interval = setInterval(async () => {
       let n;
@@ -93,46 +93,25 @@ playerButtons.addEventListener("click", async (e) => {
       if (!game._gamePlaying) clearInterval(interval);
     }, 750);
 
-    endRound();
-
     // once no new card drawn, see who one the round
   } else if (e.target.id === "player-hit") {
-    if (
-      game._player._hasBlackjack ||
-      game._dealer._hasBlackjack ||
-      !game._gamePlaying
-    ) {
-      removeClassFromArr([anotherRoundButton], "hide");
-    } else {
-      // drawing one card from the deck
-      const card = await drawOneCard();
+    // drawing one card from the deck
+    const card = await drawOneCard();
 
-      // entering new card info in the player obj
-      game._addCard("player", card);
+    // entering new card info in the player obj
+    game._addCard("player", card);
 
-      // render info to the dom
-      game._player._renderPlayerInfo(playerBoard);
+    // render info to the dom
+    game._player._renderPlayerInfo(playerBoard);
 
-      // check if player has blackjack
-      game._checkBlackJack(gameMessage);
+    // see if player goes over 21 or gets blackjack
+    game._checkPlayerSum(gameMessage);
 
-      // see if player goes over 21
-      game._checkPlayerRound(gameMessage);
-
-      endRound();
-    }
+    // end game
+    game._endRound(anotherRoundButton, playerBoard);
   }
 });
 
 anotherRoundButton.addEventListener("click", (e) => {
-  game._reset();
+  game._resetValues(anotherRoundButton, gameMessage, playerBoard, board);
 });
-
-function endRound() {
-  if (game._player._hasBlackjack || game._dealer._hasBlackjack) {
-    removeClassFromArr([anotherRoundButton], "hide");
-    for (let b of blackjackBoxes) {
-      b.style.opacity = 0;
-    }
-  }
-}

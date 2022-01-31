@@ -66,10 +66,13 @@ class Game {
       x = 1;
       this._addCoins(1);
       this._player._hasBlackjack = true;
+      console.log("player blackjack");
+      console.log(msg, "msg");
     } else if (this._dealer._sum === 21) {
       x = 1;
       msg = "the dealer got blackjack!";
       this._dealer._hasBlackjack = true;
+      console.log("dealer black jack");
     }
 
     if (x > 0) this._player._playing = false;
@@ -89,8 +92,6 @@ class Game {
     } else if (this._player._sum < this._dealer._sum) {
       msg = "dealer won the round!";
     } else if (this._player._sum === this._dealer._sum) {
-      msg = "push, it is a tie!";
-      this._addCoins(0);
     }
 
     this._alertWinner(el, msg);
@@ -117,11 +118,54 @@ class Game {
     el.textContent = msg;
   }
 
-  _reset() {
+  _checkPlayerSum(el) {
+    let msg;
+    if (this._player._sum === 21) {
+      msg = "you got blackjack!";
+      this._addCoins(1);
+      this._player._hasBlackjack = true;
+    } else if (this._player._sum > 21) {
+      msg = "the dealer won!";
+      this._gamePlaying = false;
+    }
+    if (!msg) msg = "playing round";
+    this._alertWinner(el, msg);
+  }
+
+  _checkDealerSum(el) {
+    let msg;
+    if (this._dealer._sum === 21) {
+      msg = "the dealer got blackjack!";
+      this._dealer._hasBlackjack = true;
+    } else if (this._player._sum > 21) {
+      msg = "you won!";
+    } else if (this._player._sum === this._dealer._sum) {
+      msg = "push, it is a tie!";
+      this._addCoins(0);
+    }
+    if (!msg) msg = "playing round";
+    this._alertWinner(el, msg);
+  }
+
+  _resetValues(btn, msgEl, playerBoard, board) {
+    btn.classList.add("hide");
+    msgEl.textContent = "playing game";
+    this._toggleHideEvents(playerBoard);
+    playerBoard.querySelector(".blackjack-sum span").textContent = 0;
+    this._hideImages(board);
+
+    // hide player-btns
+    playerBoard.querySelector("#player-btns").classList.add("hide");
+    // show betbtns
+    board.querySelector(".blackjack__btns").classList.remove("hide");
+
     this._player._sum = 0;
     this._player._cards = [];
     this._dealer._sum = 0;
     this._dealer._cards = [];
+    this._gamePlaying = true;
+    this._player._hasBlackjack = false;
+    this._dealer._hasBlackjack = false;
   }
 
   _addCoins(x) {
@@ -133,6 +177,31 @@ class Game {
     }
     this._coins += pot;
     this._coinsEl.textContent = this._coins;
+  }
+
+  _endRound(btn, el) {
+    if (
+      this._gamePlaying === false ||
+      this._player._hasBlackjack === true ||
+      this._dealer._hasBlackjack === true
+    ) {
+      btn.classList.remove("hide");
+      this._toggleHideEvents(el);
+    }
+  }
+
+  _toggleHideEvents(el) {
+    const btns = el.querySelectorAll("button");
+    for (let b of btns) {
+      b.classList.toggle("hide-events");
+    }
+  }
+
+  _hideImages(el) {
+    const imgs = el.querySelectorAll("img");
+    for (let i of imgs) {
+      i.style.opacity = 0;
+    }
   }
 }
 

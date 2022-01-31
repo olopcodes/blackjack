@@ -20,8 +20,11 @@ function removeClassFromArr(arr, className) {
   }
 }
 
-function addClassName(el, className) {
-  el.classList.add(className);
+function addClassName(arr, className) {
+  // el.classList.add(className);
+  for (let item of arr) {
+    item.classList.add(className);
+  }
 }
 
 function showDealerHand(el) {
@@ -38,4 +41,26 @@ async function drawOneCard() {
   const cardArr = game._formatCards(card);
   // getting the card out of the array
   return cardArr.pop();
+}
+
+function hideOpacity(arr) {
+  for (let item of arr) {
+    item.style.opacity = 0;
+  }
+}
+
+function showItemOpacity(arr) {
+  for (let item of arr) {
+    item.style.opacity = 1;
+  }
+}
+
+function endRound(btn) {
+  if (
+    !game._gamePlaying ||
+    game._player._hasBlackjack ||
+    game._dealer._hasBlackjack
+  ) {
+    removeClassFromArr(btn, "hide");
+  }
 }
