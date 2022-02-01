@@ -33,6 +33,30 @@ class Player {
       "#blackjack-player .blackjack-sum span"
     ).textContent = this._sum;
   }
+
+  _renderCards(name) {
+    let html = "";
+    let el;
+    if (name === "player") {
+      el = this._gameBoard.querySelector(
+        "#blackjack-player .blackjack__cards-wrapper"
+      );
+    } else if ("dealer") {
+      el = this._gameBoard.querySelector(
+        "#blackjack-dealer .blackjack__cards-wrapper"
+      );
+    }
+    el.innerHTML = "";
+    for (let c of this._cards) {
+      html += `
+        <div>
+          <img src="${c.image}"/>
+        </div>
+      `;
+    }
+
+    el.innerHTML = html;
+  }
 }
 
 // practicing extending and object
@@ -42,8 +66,16 @@ class Dealer extends Player {
   }
 
   _showDealerSum() {
+    const el = this._gameBoard.querySelector(
+      "#blackjack-dealer .blackjack-sum span"
+    );
+    el.textContent = this._sum;
+    el.style.opacity = 1;
+  }
+
+  _hideDealerSum() {
     this._gameBoard.querySelector(
       "#blackjack-dealer .blackjack-sum span"
-    ).textContent = this._sum;
+    ).style.opacity = 0;
   }
 }

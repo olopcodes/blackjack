@@ -26,6 +26,8 @@ class Game {
     this._dealer._getCardSum();
     this._player._showPlayerSum();
     this._placeBet();
+    this._player._renderCards("player");
+    this._dealer._renderCards("dealer");
   }
 
   //   fetching the deck id and cards from api
