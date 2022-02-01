@@ -9,13 +9,9 @@ class Game {
       if (e.target.id === "bet-btn") {
         await this._runGame();
       } else if (e.target.id === "decrease-bet") {
-        if (this._bet > 0) {
-          this._bet -= 5;
-        }
+        this._decreaseBet();
       } else if (e.target.id === "increase-bet") {
-        if (this._bet <= this._coins) {
-          this._bet += 5;
-        }
+        this._increaseBet();
       }
     });
   }
@@ -29,6 +25,7 @@ class Game {
     this._player._getCardSum();
     this._dealer._getCardSum();
     this._player._showPlayerSum();
+    this._placeBet();
   }
 
   //   fetching the deck id and cards from api
@@ -71,6 +68,27 @@ class Game {
     } else {
       this._dealer = new Dealer(data, this._gameBoard);
     }
+  }
+
+  // calc coins
+
+  _placeBet() {
+    this._coins -= this._bet;
+    this._gameBoard.querySelector("#coins span").textContent = this._coins;
+  }
+
+  _increaseBet() {
+    if (this._bet <= this._coins) {
+      this._bet += 5;
+    }
+    this._gameBoard.querySelector("#player-bet").textContent = this._bet;
+  }
+
+  _decreaseBet() {
+    if (this._bet > 5) {
+      this._bet -= 5;
+    }
+    this._gameBoard.querySelector("#player-bet").textContent = this._bet;
   }
 
   //   fetching cards
