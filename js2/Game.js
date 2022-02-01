@@ -30,15 +30,6 @@ class Game {
     this._dealer._renderCards("dealer");
   }
 
-  //   fetching the deck id and cards from api
-  async _getDeckId() {
-    const res = await fetch(
-      "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=10"
-    );
-    const data = await res.json();
-    return data.deck_id;
-  }
-
   // show the game board
   _showBoardBoxes() {
     const boxes = this._gameBoard.querySelectorAll(".blackjack__box");
@@ -72,8 +63,7 @@ class Game {
     }
   }
 
-  // calc coins
-
+  // calc coins ============================================
   _placeBet() {
     this._coins -= this._bet;
     this._gameBoard.querySelector("#coins span").textContent = this._coins;
@@ -93,13 +83,30 @@ class Game {
     this._gameBoard.querySelector("#player-bet").textContent = this._bet;
   }
 
-  //   fetching cards
-  async _drawCards(num) {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/${this._deckId}/draw/?count=${num}`
-    );
-    const data = await res.json();
-    return data.cards;
+  // calc winner
+  _checkPlayerSumCards() {
+    let x = 0;
+    if (this._player._sum > 21) {
+      x = 1;
+      console.log("dealer wins");
+    } else if (this._player._sum === 21) {
+      x = 2;
+      console.log("you got blackjack!");
+    }
+  }
+
+  _checkEndOfRoundSumCards() {
+    if (this._dealer._sum > 21) {
+      console.log("player won");
+    } else if (this.dealer._sum === 21) {
+      console.log("dealer got blackjack");
+    } else if (this._dealer._sum > this._player._sum) {
+      console.log("dealer wins round!!");
+    } else if (this._player._sum > this._dealer._sum) {
+      console.log("you won the round");
+    } else if (this._player._sum === this._dealer._sum) {
+      console.log("push, it is a tie!");
+    }
   }
 
   //   formatting the data from fetched cards
@@ -108,5 +115,22 @@ class Game {
     return arr.map((item) => {
       return { image: item.image, value: item.value };
     });
+  }
+
+  //   fetching cards info from api ========================================
+  async _getDeckId() {
+    const res = await fetch(
+      "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=10"
+    );
+    const data = await res.json();
+    return data.deck_id;
+  }
+
+  async _drawCards(num) {
+    const res = await fetch(
+      `https://deckofcardsapi.com/api/deck/${this._deckId}/draw/?count=${num}`
+    );
+    const data = await res.json();
+    return data.cards;
   }
 }
