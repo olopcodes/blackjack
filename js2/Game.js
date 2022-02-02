@@ -12,6 +12,25 @@ class Game {
         this._decreaseBet();
       } else if (e.target.id === "increase-bet") {
         this._increaseBet();
+      } else if (e.target.id === "player-hit") {
+        await this._runPlayerHitsLogic();
+      } else if (e.target.id === "player-stands") {
+        // add hide events to btns hit and stand
+
+        // what to do in with certain sums
+        const n = Math.random();
+        const dealerSum = this._dealer._sum;
+        if (dealerSum >= 19) {
+          console.log("end round");
+        } else if (dealerSum === 18 && n > 0.9) {
+          console.log("draw card >", n, this._dealer._sum);
+        } else if (dealerSum === 17 && n > 0.7) {
+          console.log("draw card ", n, this._dealer._sum);
+        } else if (dealerSum === 16 && n > 0.5) {
+          console.log("draw new card");
+        } else if (dealerSum === 15 && n > 0.35) {
+          console.log("draw another card");
+        }
       }
     });
   }
@@ -28,7 +47,32 @@ class Game {
     this._placeBet();
     this._player._renderCards("player");
     this._dealer._renderCards("dealer");
+    this._checkPlayerSumCards();
+    this._endRound();
   }
+
+  // player hit logic
+  async _runPlayerHitsLogic() {
+    // draw new card, update array
+    const data = await this._drawCards(1);
+    const card = this._formatCardData(data);
+    this._updateCards(card, "player");
+
+    // sum new array
+    this._player._getCardSum();
+    this._player._showPlayerSum();
+
+    //  render cards again
+    this._player._renderCards("player");
+
+    // check the sum
+    this._checkPlayerSumCards();
+
+    // end round
+    this._endRound();
+  }
+
+  // player stands / dealer logic
 
   // show the game board
   _showBoardBoxes() {
@@ -43,6 +87,23 @@ class Game {
   _removeClassFromArr(arr, className) {
     for (let item of arr) {
       item.classList.remove(className);
+    }
+  }
+
+  _addClassFromArr(arr, className) {
+    for (let item of arr) {
+      item.classList.add(className);
+    }
+  }
+
+  // update cards arr
+  _updateCards(arr, name) {
+    for (let item of arr) {
+      if (name === "player") {
+        this._player._cards.push(item);
+      } else if (name === "dealer") {
+        this._dealer._cards.push(item);
+      }
     }
   }
 
@@ -63,9 +124,25 @@ class Game {
     }
   }
 
-  // calc coins ============================================
+  // calc coins/bet ============================================
   _placeBet() {
     this._coins -= this._bet;
+    this._gameBoard.querySelector("#coins span").textContent = this._coins;
+  }
+
+  _handleWinnings(x) {
+    let w;
+    if (x === 1) {
+      // for blackjack
+      w = this._bet * 3;
+    } else if (x === 0) {
+      // for win
+      w = this._bet * 2;
+    } else {
+      w = this._bet;
+    }
+
+    this._coins = w;
     this._gameBoard.querySelector("#coins span").textContent = this._coins;
   }
 
@@ -85,17 +162,20 @@ class Game {
 
   // calc winner
   _checkPlayerSumCards() {
-    let x = 0;
+    let x;
+    const msg = this._gameBoard.querySelector("#game-message");
     if (this._player._sum > 21) {
-      x = 1;
-      console.log("dealer wins");
+      msg.textContent = "Dealer wins!";
+      this._isPlaying = false;
     } else if (this._player._sum === 21) {
-      x = 2;
-      console.log("you got blackjack!");
+      x = 1;
+      msg.textContent = "you got blackjack!!";
+      this._isPlaying = false;
+      this._handleWinnings(1);
     }
   }
 
-  _checkEndOfRoundSumCards() {
+  _checkFinalSumCards() {
     if (this._dealer._sum > 21) {
       console.log("player won");
     } else if (this.dealer._sum === 21) {
@@ -115,6 +195,29 @@ class Game {
     return arr.map((item) => {
       return { image: item.image, value: item.value };
     });
+  }
+
+  // ending the game round
+  _endRound() {
+    if (!this._isPlaying) {
+      // hide pointer events on buttons
+      const btns = this._gameBoard.querySelectorAll("#player-btns button");
+      this._addClassFromArr(btns, "hide-events");
+      // show another round button
+      this._toggleClass(
+        this._gameBoard.querySelector("#another-round"),
+        "hide"
+      );
+    }
+  }
+
+  // resetting the round
+  _roundReset() {
+    // remove cards from both
+    // remove sum
+    // hide cards/images and the card wrapper
+    // reset value of bet and coins
+    // show the bet buttons again
   }
 
   //   fetching cards info from api ========================================
