@@ -37,6 +37,10 @@ body {
   pointer-events: none;
 }
 
+.hide-opacity {
+  opacity: 0;
+}
+
 .btn {
   border: 0;
   outline: none;

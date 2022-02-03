@@ -15,22 +15,9 @@ class Game {
       } else if (e.target.id === "player-hit") {
         await this._runPlayerHitsLogic();
       } else if (e.target.id === "player-stands") {
-        // add hide events to btns hit and stand
-
-        // what to do in with certain sums
-        const n = Math.random();
-        const dealerSum = this._dealer._sum;
-        if (dealerSum >= 19) {
-          console.log("end round");
-        } else if (dealerSum === 18 && n > 0.9) {
-          console.log("draw card >", n, this._dealer._sum);
-        } else if (dealerSum === 17 && n > 0.7) {
-          console.log("draw card ", n, this._dealer._sum);
-        } else if (dealerSum === 16 && n > 0.5) {
-          console.log("draw new card");
-        } else if (dealerSum === 15 && n > 0.35) {
-          console.log("draw another card");
-        }
+        this._checkFinalSumCards();
+        this._dealer._showDealerHand();
+        await this._dealerDrawCard();
       }
     });
   }
@@ -73,6 +60,37 @@ class Game {
   }
 
   // player stands / dealer logic
+
+  _checkDealerSum() {
+    const n = Math.random();
+    const dealerSum = this._dealer._sum;
+    if (dealerSum >= 19) {
+      return 0;
+    } else if (dealerSum === 18 && n > 0.9) {
+      return 1;
+    } else if (dealerSum === 17 && n > 0.7) {
+      return 1;
+    } else if (dealerSum === 16 && n > 0.5) {
+      return 1;
+    } else if (dealerSum === 15 && n > 0.35) {
+      return 1;
+    } else {
+      return 1;
+    }
+  }
+
+  async _dealerDrawCard() {
+    const x = this._checkDealerSum();
+    if (x === 1) {
+      const data = await this._drawCards(1);
+      const card = this._formatCardData(data);
+      this._updateCards(card, "dealer");
+      this._dealer._getCardSum();
+
+      this._dealer._showDealerHand();
+      this._dealer._renderCards("dealer");
+    }
+  }
 
   // show the game board
   _showBoardBoxes() {
@@ -176,17 +194,25 @@ class Game {
   }
 
   _checkFinalSumCards() {
+    let x;
     if (this._dealer._sum > 21) {
       console.log("player won");
+      x = 1;
     } else if (this.dealer._sum === 21) {
       console.log("dealer got blackjack");
+      x = 1;
     } else if (this._dealer._sum > this._player._sum) {
       console.log("dealer wins round!!");
+      x = 1;
     } else if (this._player._sum > this._dealer._sum) {
       console.log("you won the round");
+      x = 1;
     } else if (this._player._sum === this._dealer._sum) {
       console.log("push, it is a tie!");
+      x = 1;
     }
+
+    if (x === 1) this._isPlaying = false;
   }
 
   //   formatting the data from fetched cards

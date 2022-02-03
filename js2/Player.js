@@ -65,12 +65,20 @@ class Dealer extends Player {
     super(cards, boardEl);
   }
 
-  _showDealerSum() {
+  _showDealerHand() {
     const el = this._gameBoard.querySelector(
       "#blackjack-dealer .blackjack-sum span"
     );
     el.textContent = this._sum;
     el.style.opacity = 1;
+
+    this._showSecondCard();
+  }
+
+  _showSecondCard() {
+    this._gameBoard.querySelectorAll(
+      "#blackjack-dealer .blackjack__cards-wrapper img"
+    )[1].style.opacity = 1;
   }
 
   _hideDealerSum() {
