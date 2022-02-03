@@ -18,6 +18,8 @@ class Game {
         this._checkFinalSumCards();
         this._dealer._showDealerHand();
         await this._dealerDrawCard();
+
+        // add function to display msgs to the dom if not there
       }
     });
   }
