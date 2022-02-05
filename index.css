@@ -41,6 +41,10 @@ body {
   opacity: 0;
 }
 
+.show-opacity {
+  opacity: 1 !important;
+}
+
 .btn {
   border: 0;
   outline: none;

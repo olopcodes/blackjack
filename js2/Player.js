@@ -71,14 +71,13 @@ class Dealer extends Player {
     );
     el.textContent = this._sum;
     el.style.opacity = 1;
-
     this._showSecondCard();
   }
 
   _showSecondCard() {
-    this._gameBoard.querySelectorAll(
-      "#blackjack-dealer .blackjack__cards-wrapper img"
-    )[1].style.opacity = 1;
+    this._gameBoard
+      .querySelector(".blackjack__cards-wrapper div:nth-of-type(2) img")
+      .classList.add("show-opacity");
   }
 
   _hideDealerSum() {

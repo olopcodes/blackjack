@@ -7,6 +7,8 @@ class Game {
     this._bet = 10;
     boardEl.addEventListener("click", async (e) => {
       if (e.target.id === "bet-btn") {
+        this._gameBoard.querySelector("#player-btns").classList.remove("hide");
+
         await this._runGame();
       } else if (e.target.id === "decrease-bet") {
         this._decreaseBet();
@@ -15,17 +17,16 @@ class Game {
       } else if (e.target.id === "player-hit") {
         await this._runPlayerHitsLogic();
       } else if (e.target.id === "player-stands") {
-        this._checkFinalSumCards();
-        this._dealer._showDealerHand();
-        await this._dealerDrawCard();
-
-        // add function to display msgs to the dom if not there
+        await this._runDealerLogic();
+      } else if (e.target.id === "another-round") {
+        this._roundReset();
       }
     });
   }
 
   //   entire game logic
   async _runGame() {
+    this._printMessage("playing round");
     this._deckId = await this._getDeckId();
     this._showBoardBoxes();
     await this._createNewPlayer("player");
@@ -36,7 +37,7 @@ class Game {
     this._placeBet();
     this._player._renderCards("player");
     this._dealer._renderCards("dealer");
-    this._checkPlayerSumCards();
+    this._checkIndividualSum("player");
     this._endRound();
   }
 
@@ -55,13 +56,41 @@ class Game {
     this._player._renderCards("player");
 
     // check the sum
-    this._checkPlayerSumCards();
+    this._checkIndividualSum("player");
 
     // end round
     this._endRound();
   }
 
   // player stands / dealer logic
+
+  async _runDealerLogic() {
+    this._dealer._showDealerHand();
+    this._checkIndividualSum("dealer");
+
+    const val = this._checkDealerSum();
+    if (val === 0) {
+      this._compareFinalSum();
+      this._endRound();
+    } else {
+      let interval = setInterval(async () => {
+        const x = this._checkDealerSum();
+        if (x === 1) {
+          await this._dealerDrawCard();
+          this._dealer._showSecondCard();
+          this._checkIndividualSum("dealer");
+          if (this._isPlaying === false) {
+            this._endRound();
+            clearInterval(interval);
+          }
+        } else {
+          this._compareFinalSum();
+          this._endRound();
+          clearInterval(interval);
+        }
+      }, 750);
+    }
+  }
 
   _checkDealerSum() {
     const n = Math.random();
@@ -82,16 +111,12 @@ class Game {
   }
 
   async _dealerDrawCard() {
-    const x = this._checkDealerSum();
-    if (x === 1) {
-      const data = await this._drawCards(1);
-      const card = this._formatCardData(data);
-      this._updateCards(card, "dealer");
-      this._dealer._getCardSum();
-
-      this._dealer._showDealerHand();
-      this._dealer._renderCards("dealer");
-    }
+    const data = await this._drawCards(1);
+    const card = this._formatCardData(data);
+    this._updateCards(card, "dealer");
+    this._dealer._getCardSum();
+    this._dealer._showDealerHand();
+    this._dealer._renderCards("dealer");
   }
 
   // show the game board
@@ -150,19 +175,14 @@ class Game {
     this._gameBoard.querySelector("#coins span").textContent = this._coins;
   }
 
-  _handleWinnings(x) {
-    let w;
-    if (x === 1) {
-      // for blackjack
-      w = this._bet * 3;
-    } else if (x === 0) {
-      // for win
-      w = this._bet * 2;
-    } else {
-      w = this._bet;
+  _handleWinnings(winner) {
+    if (winner === "player") {
+      this._coins += this._bet * 2;
+    } else if (winner === "blackjack") {
+      this._coins += this._bet * 3;
+    } else if (winner === "tie") {
+      this._coins += this._bet;
     }
-
-    this._coins = w;
     this._gameBoard.querySelector("#coins span").textContent = this._coins;
   }
 
@@ -181,40 +201,82 @@ class Game {
   }
 
   // calc winner
-  _checkPlayerSumCards() {
+  _checkIndividualSum(name) {
     let x;
-    const msg = this._gameBoard.querySelector("#game-message");
-    if (this._player._sum > 21) {
-      msg.textContent = "Dealer wins!";
-      this._isPlaying = false;
-    } else if (this._player._sum === 21) {
-      x = 1;
-      msg.textContent = "you got blackjack!!";
-      this._isPlaying = false;
-      this._handleWinnings(1);
+    let w;
+    if (name === "player") {
+      if (this._player._sum > 21) {
+        this._printMessage("Dealer wins!");
+        x = 1;
+        w = "dealer";
+      } else if (this._player._sum === 21) {
+        x = 1;
+        w = "blackjack";
+        this._printMessage("you got blackjack!!");
+      }
+    } else if (name === "dealer") {
+      if (this._dealer._sum > 21) {
+        this._printMessage("You win");
+        x = 1;
+        w = "player";
+      } else if (this._dealer._sum === 21) {
+        x = 1;
+        w = "dealer";
+        this._printMessage("dealer got blackjack!!");
+      }
     }
+    if (x === 1) this._isPlaying = false;
+    this._handleWinnings(w);
+  }
+
+  _compareFinalSum() {
+    let w;
+    if (this._player._sum > this._dealer._sum) {
+      w = "player";
+      this._printMessage("you win!!");
+    } else if (this._player._sum < this._dealer._sum) {
+      w = "dealer";
+      this._printMessage("dealer wins!!");
+    } else {
+      w = "tie";
+      this._printMessage(`push, it's a tie!!`);
+    }
+
+    this._isPlaying = false;
+    this._handleWinnings(w);
   }
 
   _checkFinalSumCards() {
+    let y;
+
     let x;
     if (this._dealer._sum > 21) {
-      console.log("player won");
+      this._printMessage("player won");
       x = 1;
-    } else if (this.dealer._sum === 21) {
-      console.log("dealer got blackjack");
+      y = 0;
+      return y;
+    } else if (this._dealer._sum === 21) {
+      this._printMessage("dealer got blackjack");
       x = 1;
     } else if (this._dealer._sum > this._player._sum) {
-      console.log("dealer wins round!!");
+      this._printMessage("dealer wins round!!");
       x = 1;
     } else if (this._player._sum > this._dealer._sum) {
-      console.log("you won the round");
+      this._printMessage("you won the round");
       x = 1;
+      y = 0;
+      return y;
     } else if (this._player._sum === this._dealer._sum) {
-      console.log("push, it is a tie!");
+      this._printMessage("push, it is a tie!");
       x = 1;
     }
 
     if (x === 1) this._isPlaying = false;
+  }
+
+  _printMessage(msg) {
+    const el = this._gameBoard.querySelector("#game-message");
+    el.textContent = msg;
   }
 
   //   formatting the data from fetched cards
@@ -241,11 +303,30 @@ class Game {
 
   // resetting the round
   _roundReset() {
+    this._printMessage("start betting");
     // remove cards from both
+    this._player.cards = [];
+    this._dealer.cards = [];
     // remove sum
+    this._player._sum = 0;
+    this._dealer._sum = 0;
+    this._player._showPlayerSum();
+    this._dealer._hideDealerSum();
+    this._isPlaying = true;
     // hide cards/images and the card wrapper
-    // reset value of bet and coins
+    const imgs = this._gameBoard.querySelectorAll(
+      ".blackjack__cards-wrapper img"
+    );
+    for (let i of imgs) {
+      i.remove();
+    }
     // show the bet buttons again
+    const el = this._gameBoard.querySelector(".blackjack__btns");
+    this._toggleClass(el, "hide");
+
+    this._toggleClass(this._gameBoard.querySelector("#another-round"), "hide");
+
+    this._toggleClass(this._gameBoard.querySelector("#player-btns"), "hide");
   }
 
   //   fetching cards info from api ========================================
