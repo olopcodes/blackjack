@@ -20,35 +20,44 @@
     <main class="blackjack__board hide">
       <p id="game-message" class="message">Start betting</p>
       <button id="another-round" class="btn btn-cta hide">play again</button>
-      <!-- dealer -->
-      <div id="blackjack-dealer" class="blackjack__dealer blackjack__box hide">
-        <p class="blackjack-sum">
-          Dealer Sum: <span class="hide-opacity">0</span>
-        </p>
-        <div class="blackjack__cards-wrapper"></div>
-      </div>
-      <!-- dealer -->
 
-      <!-- player -->
-      <div id="blackjack-player" class="blackjack__player blackjack__box hide">
-        <!-- this will show after bet button clicks -->
-        <div class="blackjack__player-content">
-          <p class="blackjack-sum">Player Sum: <span>0</span></p>
+      <div class="blackjack__boxes-wrapper">
+        <!-- dealer -->
+        <div
+          id="blackjack-dealer"
+          class="blackjack__dealer blackjack__box hide"
+        >
+          <p class="blackjack-sum">
+            Dealer Sum: <span class="hide-opacity">0</span>
+          </p>
           <div class="blackjack__cards-wrapper"></div>
-          <div id="player-btns" class="blackjack__player-btns">
-            <button id="player-hit" class="btn btn-cta btn-cta-small">
-              hit
-            </button>
-            <button
-              id="player-stands"
-              class="btn btn-secondary btn-secondary-off"
-            >
-              stand
-            </button>
+        </div>
+        <!-- dealer -->
+
+        <!-- player -->
+        <div
+          id="blackjack-player"
+          class="blackjack__player blackjack__box hide"
+        >
+          <!-- this will show after bet button clicks -->
+          <div class="blackjack__player-content">
+            <p class="blackjack-sum">Player Sum: <span>0</span></p>
+            <div class="blackjack__cards-wrapper"></div>
+            <div id="player-btns" class="blackjack__player-btns">
+              <button id="player-hit" class="btn btn-cta btn-cta-small">
+                hit
+              </button>
+              <button
+                id="player-stands"
+                class="btn btn-secondary btn-secondary-off"
+              >
+                stand
+              </button>
+            </div>
           </div>
         </div>
+        <!-- player -->
       </div>
-      <!-- player -->
 
       <!-- this will show after start button clicked -->
 

@@ -95,7 +95,7 @@ class Game {
   _checkDealerSum() {
     const n = Math.random();
     const dealerSum = this._dealer._sum;
-    if (dealerSum >= 19) {
+    if (dealerSum >= 19 || dealerSum > this._player._sum) {
       return 0;
     } else if (dealerSum === 18 && n > 0.9) {
       return 1;
@@ -314,12 +314,9 @@ class Game {
     this._dealer._hideDealerSum();
     this._isPlaying = true;
     // hide cards/images and the card wrapper
-    const imgs = this._gameBoard.querySelectorAll(
-      ".blackjack__cards-wrapper img"
-    );
-    for (let i of imgs) {
-      i.remove();
-    }
+    this._removeImgs();
+    this._removeHideEvents();
+
     // show the bet buttons again
     const el = this._gameBoard.querySelector(".blackjack__btns");
     this._toggleClass(el, "hide");
@@ -327,6 +324,22 @@ class Game {
     this._toggleClass(this._gameBoard.querySelector("#another-round"), "hide");
 
     this._toggleClass(this._gameBoard.querySelector("#player-btns"), "hide");
+  }
+
+  _removeHideEvents() {
+    const btns = this._gameBoard.querySelectorAll("#player-btns button");
+    for (let b of btns) {
+      b.classList.remove("hide-events");
+    }
+  }
+
+  _removeImgs() {
+    const imgs = this._gameBoard.querySelectorAll(
+      ".blackjack__cards-wrapper img"
+    );
+    for (let i of imgs) {
+      i.remove();
+    }
   }
 
   //   fetching cards info from api ========================================

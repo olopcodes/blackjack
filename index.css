@@ -244,3 +244,43 @@ body {
 #another-round {
   margin-bottom: 2em;
 }
+
+/* media queries */
+@media screen and (min-width: 1080px) {
+  #game-message {
+    margin-bottom: 1em;
+  }
+
+  .blackjack__board {
+    padding: 1em 0 0 0;
+    width: 980px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .blackjack__boxes-wrapper {
+    margin-top: 1.5em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  #blackjack-player {
+    order: 1;
+  }
+
+  #blackjack-dealer {
+    order: 2;
+  }
+
+  .blackjack__box {
+    margin-bottom: 1.5em;
+  }
+
+  .blackjack__btns {
+    margin-top: 1em;
+  }
+}
