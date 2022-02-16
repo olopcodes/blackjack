@@ -176,10 +176,10 @@ class Game {
   }
 
   _handleWinnings(winner) {
-    if (winner === "player") {
-      this._coins += this._bet * 2;
-    } else if (winner === "blackjack") {
+    if (winner === "blackjack") {
       this._coins += this._bet * 3;
+    } else if (winner === "player") {
+      this._coins += this._bet * 2;
     } else if (winner === "tie") {
       this._coins += this._bet;
     }
